@@ -1,11 +1,8 @@
 # PPTP VPN
 
-Configure PPTP server on CentOS 7.
+Configure PPTP server on CentOS 7. Encryption setting on the client side must be "None".
 
-Prerequisites:
-
-- EPEL (?)
-- Ansible
+Prerequisites: EPEL (?).
 
 group_vars/all.yml consists these variables:
 
