@@ -1,0 +1,6 @@
+---
+- name: restart pptpd
+  service: name=pptpd state=restarted
+
+- name: restart dnsmasq
+  service: name=dnsmasq state=restarted

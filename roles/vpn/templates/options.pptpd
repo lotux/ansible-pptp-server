@@ -1,0 +1,14 @@
+name pptpd
+refuse-pap
+refuse-chap
+refuse-mschap
+require-mschap-v2
+proxyarp
+nodefaultroute
+mtu 1400
+mru 1400
+lock
+nobsdcomp
+novj
+novjccomp
+nologfd

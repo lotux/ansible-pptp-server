@@ -1,0 +1,7 @@
+---
+# CentOS 7
+- name: Install VPN
+  hosts: all
+  sudo: yes
+  roles:
+    - vpn

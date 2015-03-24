@@ -1,0 +1,41 @@
+---
+# - name: Install core packages for CentOS
+#   yum: name={{ item }} state=latest
+#   with_items:
+#     - pptpd
+#     - dnsmasq
+#     # - bind
+
+# - name: Set ip forwarding in /etc/sysctl.conf for VPN
+#   sysctl: name={{ item }} value=1 state=present reload=yes ignoreerrors=yes
+#   ignore_errors: yes
+#   with_items:
+#     - "net.ipv4.conf.default.forwarding"
+#     - "net.ipv4.ip_forward"
+#     - "net.ipv4.conf.all.forwarding"
+
+- name: Deploy /etc/ppp/chap-secrets
+  template: src=chap-secrets dest=/etc/ppp/chap-secrets owner=root group=root mode=0600
+  notify: restart pptpd
+
+- name: Deploy /etc/pptpd.conf
+  template: src=pptpd.conf dest=/etc/pptpd.conf owner=root group=root mode=0640
+  notify: restart pptpd
+
+- name: Deploy /etc/ppp/options.pptpd
+  template: src=options.pptpd dest=/etc/ppp/options.pptpd owner=root group=root mode=0640
+  notify: restart pptpd
+
+- name: Deploy /etc/named.conf
+  template: src=named.conf dest=/etc/named.conf owner=root group=root mode=0644
+  # notify: restart bind
+
+- name: Deploy /etc/dnsmasq.conf
+  template: src=dnsmasq.conf dest=/etc/dnsmasq.conf owner=root group=root mode=0644
+  notify: restart dnsmasq
+
+- name: Enable VPN services
+  service: name={{ item }} state=running enabled=yes
+  with_items:
+    - pptpd
+    - dnsmasq
